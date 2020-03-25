@@ -29,8 +29,7 @@ http://covid19-india.anandology.com
 ### Get Latest Cases
 
 ```
-GET /cases
-
+$ curl http://covid19-india.anandology.com/cases
 {
 	"source": "mohfw",
 	"last_updated": "2020-03-25T09:15:00+05:30",
@@ -58,21 +57,24 @@ GET /cases
 
 The default source for this is mohfw (Ministry of Health and Family Welfare). Their data is updated only once or twice a day. 
 
-If you want more live data try adding `?source=thehindu` to get the
-data from the hindu website.
+If you want more live data try adding `?source=thehindu` to use the
+data from [the hindu website][1] as source.
+
+http://covid19-india.anandology.com/cases?source=thehindu
+
+[1]: https://www.thehindu.com/sci-tech/health/covid-19-interactive-map-confirmed-cases-in-india/article31041690.ece
 
 ### Get cases for a given date
 
 ```
-GET /cases?date=2020-03-15
+$ curl http://covid19-india.anandology.com/cases?date=2020-03-15
 ...
 ```
 
 ### Get the count of cases by date for India
 
 ```
-GET /cases/daily
-
+$ curl http://covid19-india.anandology.com/cases/daily
 {
   "cases": [
     {
@@ -103,8 +105,7 @@ GET /cases/daily
 ### Get the count of cases by date for a state
 
 ```
-GET /cases/daily/mh
-
+$ curl http://covid19-india.anandology.com/cases/mh
 {
   "cases": [
     {
