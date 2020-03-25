@@ -35,7 +35,7 @@ def download() -> Path:
 	
 	# Archive raw data
 	logger.info("writing the raw data to %s", path)	
-	path.write_text(html)
+	path.write_text(html, encoding="utf-8")
 	return now, html
 
 def parse_columns(html):
@@ -94,3 +94,6 @@ def main():
 	timestamp, html = download()
 	data = parse(html)
 	load_db(timestamp, data)
+
+if __name__ == '__main__':
+	main()
