@@ -7,6 +7,9 @@ urls = (
 	"/cases", "cases",
 	"/cases/daily", "daily_cases",
 	"/cases/daily/(.*)", "daily_cases",
+
+	# legacy
+	"/thehindu/cases", "thehindu_cases"
 )
 
 app = web.application(urls, globals())
@@ -33,6 +36,11 @@ class daily_cases:
 	def GET(self, state=None):
 		source = get_source()
 		return jsonify(source.get_daily_cases(state=state))
+
+
+class thehindu_cases:
+	def GET(self):
+		raise web.redirect("/cases?source=thehindu")
 
 def get_source():
 	i = web.input(source="mohfw")
