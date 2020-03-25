@@ -10,6 +10,7 @@ import datetime
 import logging
 import web
 from . import states
+from .utils import setup_logger
 
 URL = "https://public.flourish.studio/visualisation/1538247/embed?auto=1"
 
@@ -63,12 +64,6 @@ def parse(html):
 		d['state_code'] = states.get_state_code(state['name'])
 		result.append(d)
 	return result
-
-def setup_logger():
-    logging.basicConfig(
-        level=logging.INFO,
-        format='[%(asctime)s] %(message)s',
-        datefmt='%H:%M:%S')
 
 def load_db(timestamp, data):
 	logger.info("loading data into the db...")

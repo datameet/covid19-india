@@ -1,30 +1,41 @@
 import web
 import json
-from . import db
+from .db import Source
 
 urls = (
 	"/", "index",
-	"/thehindu/cases", "thehindu_cases"
+	"/cases", "cases",
+	"/cases/daily", "daily_cases",
+	"/cases/daily/(.*)", "daily_cases",
 )
+
 app = web.application(urls, globals())
 application = app.wsgifunc()
 
 def jsonify(data):
 	web.header("Content-type", "application/json")
-	return json.dumps(data)
+	return json.dumps(data, indent="  ", sort_keys=True)
 
 class index:
 	def GET(self):
-		return jsonify({"app": "covid19-india"})
-
-class thehindu_cases:
-	def GET(self):
-		cases = db.get_thehindu_cases()
-
-		# keys of the any one entry
-		keys = cases['ka'].keys()
-		totals = {k: sum(case[k] for case in cases.values()) for k in keys}
 		return jsonify({
-			"india": totals,
-			"states": cases
+			"app": "covid19-india",
+			"repo_url": "https://github.com/anandology/covid19",
 		})
+
+class cases:
+	def GET(self):
+		i = web.input(date=None)
+		source = get_source()
+		return jsonify(source.get_cases(date=i.date))
+
+class daily_cases:
+	def GET(self, state=None):
+		source = get_source()
+		return jsonify(source.get_daily_cases(state=state))
+
+def get_source():
+	i = web.input(source="mohfw")
+	if i.source not in ["mohfw", "thehindu"]:
+		i.source = "mohfw"
+	return Source(i.source)
