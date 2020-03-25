@@ -1,0 +1,4 @@
+web.py
+requests
+psycopg2-binary
+gunicorn
