@@ -4,7 +4,6 @@ create table covid19_thehindu_entry (
 );
 create index covid19_thehindu_entry_timestamp_idx on covid19_thehindu_entry(timestamp);
 
-
 create table covid19_thehindu (
     id serial primary key,
     entry_id integer references covid19_thehindu_entry,
