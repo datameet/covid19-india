@@ -28,6 +28,11 @@ http://covid19-india.anandology.com
 
 ### Get Latest Cases
 
+
+Gets the latest number of cases from the [Ministry of Health and Family Welfare][mohfw]. This data is updated not more than couple of times a day.
+
+[mohfw]: https://www.mohfw.gov.in/
+
 ```
 $ curl http://covid19-india.anandology.com/cases
 {
@@ -55,14 +60,21 @@ $ curl http://covid19-india.anandology.com/cases
 }
 ```
 
-The default source for this is mohfw (Ministry of Health and Family Welfare). Their data is updated only once or twice a day. 
+### Get Live Cases
 
-If you want more live data try adding `?source=thehindu` to use the
-data from [the hindu website][1] as source.
+This endpoint similar to `/cases`, except that this uses [The Hindu][thehindu] as source. The Hindu updates the numbers through out of the day from various sources. However, this is not the official stats published by the government.
 
-http://covid19-india.anandology.com/cases?source=thehindu
+```
+$ curl http://covid19-india.anandology.com/cases/live
+{
+	...
+}
+```
 
-[1]: https://www.thehindu.com/sci-tech/health/covid-19-interactive-map-confirmed-cases-in-india/article31041690.ece
+The response format of this API endpoint is identical to that of `/cases`.
+
+
+[thehindu]: https://www.thehindu.com/sci-tech/health/covid-19-interactive-map-confirmed-cases-in-india/article31041690.ece
 
 ### Get cases for a given date
 

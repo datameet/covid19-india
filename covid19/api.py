@@ -5,6 +5,7 @@ from .db import Source
 urls = (
 	"/", "index",
 	"/cases", "cases",
+	"/cases/live", "live_cases",
 	"/cases/daily", "daily_cases",
 	"/cases/daily/(.*)", "daily_cases",
 
@@ -32,6 +33,12 @@ class cases:
 		source = get_source()
 		return jsonify(source.get_cases(date=i.date))
 
+class live_cases:
+	def GET(self):
+		# thehindu source has live stats
+		source = Source("thehindu")
+		return jsonify(source.get_cases(date=i.date))
+
 class daily_cases:
 	def GET(self, state=None):
 		source = get_source()
@@ -40,7 +47,7 @@ class daily_cases:
 
 class thehindu_cases:
 	def GET(self):
-		raise web.redirect("/cases?source=thehindu")
+		raise web.redirect("/cases/live")
 
 def get_source():
 	i = web.input(source="mohfw")
