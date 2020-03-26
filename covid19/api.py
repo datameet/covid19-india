@@ -37,7 +37,7 @@ class live_cases:
     def GET(self):
         # thehindu source has live stats
         source = Source("thehindu")
-        return jsonify(source.get_cases(date=i.date))
+        return jsonify(source.get_cases())
 
 class daily_cases:
     def GET(self, state=None):
