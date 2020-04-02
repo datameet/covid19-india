@@ -30,9 +30,10 @@ def parse_timestamp(datestr):
     return datetime.datetime.strptime(datestr, "%Y-%m-%dT%H:%M:%S.%f%z")
 
 def process_row(row):
-    indians = row['confirmed_india']
-    foreigners = row['confirmed_foreign']
-    confirmed = indians + foreigners
+    print(row)
+    indians = row.get('confirmed_india')
+    foreigners = row.get('confirmed_foreign')
+    confirmed = row.get('confirmed')
     cured = row['cured']
     active = confirmed - cured
     deaths = row['death']
