@@ -68,7 +68,7 @@ class Source:
         # keys of the any one entry
         k = list(cases.keys())[0]
         keys = cases[k].keys()
-        return {k: sum(case[k] for case in cases.values()) for k in keys}
+        return {k: sum(case[k] or 0 for case in cases.values()) for k in keys}
 
     def get_daily_entries(self):
         return db.query(f"""
