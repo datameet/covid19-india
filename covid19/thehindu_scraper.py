@@ -53,12 +53,18 @@ def parse_data(html):
 	d = json.loads(jsondata)
 	return d['choropleth']
 
+def safeint(x):
+	try:
+		return int(x)
+	except ValueError:
+		return 0
+
 def parse(html):
 	columns = parse_columns(html)
 	all_states = parse_data(html)
 	result = []
 	for state in all_states:
-		metadata = [x and int(x) or 0 for x in state['metadata']]
+		metadata = [x and safeint(x) or 0 for x in state['metadata']]
 		d = dict(zip(columns, metadata))
 		d['name'] = state['name']
 		d['state_code'] = states.get_state_code(state['name'])
