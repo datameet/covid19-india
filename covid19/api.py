@@ -8,6 +8,7 @@ urls = (
     "/cases/live", "live_cases",
     "/cases/daily", "daily_cases",
     "/cases/daily/(.*)", "daily_cases",
+    "/cases/growth", "cases_growth",
 
     # legacy
     "/thehindu/cases", "thehindu_cases"
@@ -44,6 +45,10 @@ class daily_cases:
         source = get_source()
         return jsonify(source.get_daily_cases(state=state))
 
+class cases_growth:
+    def GET(self):
+        source = get_source()    
+        return jsonify(source.get_cases_growth())
 
 class thehindu_cases:
     def GET(self):

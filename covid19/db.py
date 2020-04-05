@@ -1,3 +1,4 @@
+from collections import defaultdict
 import datetime
 import itertools
 import logging
@@ -79,8 +80,6 @@ class Source:
 
     def get_daily_cases(self, state=None, metric="confirmed"): 
         entries = self.get_daily_entries()
-        cols = ""
-        entries = self.get_daily_entries()
         entry_ids = [e.id for e in entries]
         if state:
             where = " AND state_code=$state"
@@ -123,4 +122,52 @@ class Source:
                 for state, state_cases in
                 itertools.groupby(cases, lambda case: case['state_code'])}
 
+    def get_cases_growth(self):
+        cols = 'state_code,confirmed'
+        entries = self.get_daily_entries()        
+        entry_ids = [e.id for e in entries]
 
+        result = db.query(f"""
+            SELECT date_trunc('day', timestamp)::date as date, state_code as state, confirmed
+            FROM {self.table}
+            JOIN {self.entry_table} ON {self.entry_table}.id = {self.table}.entry_id
+            WHERE entry_id IN $entry_ids 
+            ORDER BY 2, 1 DESC
+            """, 
+            vars={"entry_ids": entry_ids})
+
+        states = defaultdict(list)
+        for row in result:
+            states[row.state].append(row)
+
+        max_date = max({row.date for rows in states.values() for row in rows})
+        dates = [max_date-i*datetime.timedelta(days=1) for i in range(21)][:-1]
+
+        def compute_totals():
+            counts = defaultdict(list)
+            for rows in states.values():
+                for row in rows:
+                    counts[row.date].append(row.confirmed)
+            return [web.storage(date=date, confirmed=sum(counts[date])) for date in dates]
+
+        def process_growth(key, rows):
+            doubled_in = self._compute_doubled_in([row.confirmed for row in rows])
+            cases = {row.date: row.confirmed for row in rows}
+            return {
+                "state": key,
+                "doubled_in": doubled_in,
+                "cases": [dict(date=date.isoformat(), cases=cases.get(date, 0)) for date in dates],
+                "current": cases.get(max_date, 0)
+            }
+        states['india'] = compute_totals()
+        return sorted([process_growth(key, rows) for key, rows in states.items()], reverse=True, key=lambda x: x['cases'][0]['cases'])
+
+    def _compute_doubled_in(self, values):
+        current = values[0]
+        try:
+            return first(i for i, v in enumerate(values) if v and v+v < current)
+        except StopIteration:
+            return None
+
+def first(seq):
+    return next(iter(seq))
