@@ -30,7 +30,8 @@ export default {
     }
   },  
   created() {
-    axios.get('http://localhost:8000/cases/growth')
+    var API_URL = process.env.VUE_APP_API_URL;
+    axios.get(API_URL + '/cases/growth')
     .then(response => {
          this.stats = response.data
     })
