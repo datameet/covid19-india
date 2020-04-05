@@ -17,6 +17,13 @@ urls = (
 app = web.application(urls, globals())
 application = app.wsgifunc()
 
+def cors_processor(handler):
+    web.header("Access-Control-Allow-Origin", "*")
+    web.header("Access-Control-Allow-Methods", "GET")
+    return handler()
+
+app.add_processor(cors_processor)
+
 def jsonify(data):
     web.header("Content-type", "application/json")
     return json.dumps(data, indent="  ", sort_keys=True)
