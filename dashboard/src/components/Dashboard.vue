@@ -24,7 +24,7 @@
           </p> 
 
           <p>Data Source: Data published by 
-            <a href="https://www.mohfw.gov.in/">Minstry of Health and Family Welfare</a>, 
+            <a href="https://www.mohfw.gov.in/">Ministry of Health and Family Welfare</a>, 
             compiled by <a href="https://projects.datameet.org/covid19/">DataMeet</a> 
             and published as an API by <a href="https://twitter.com/anandology">@anandology</a>.
           </p>
