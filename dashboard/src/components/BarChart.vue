@@ -1,7 +1,8 @@
 <template>
     <div class="bar-chart">
         <div class="bar-wrapper" v-for="bar in bars" v-bind:key="bar.key">
-            <div class="bar" :style="bar.style"></div>
+            <div v-if="bar.current" class="bar current" :style="bar.style"></div>
+            <div v-else class="bar" :style="bar.style"></div>
         </div>
     </div>
 </template>
@@ -12,13 +13,16 @@ export default {
       bars: function() {
           var max = this.data[this.data.length-1].cases;
           var index = 0;
+          var length = this.data.length;
           function makeBar(row) {
               index++;
               var value = row.cases;
               var style = "height: XX%".replace("XX", (100.0*value)/max);
+              var current = (index == length)
               return {
                   style: style,
-                  key: index
+                  key: index,
+                  current: current
               }
           }
           return this.data.map(makeBar);
@@ -47,7 +51,9 @@ export default {
         right: 0;
         bottom: 0;
         min-height: 1px;    
-        background-color: rgba(158,102,126,0.8);
+        background-color: rgba(137,34,34,0.25)        
     }
-    
+    .bar.current {
+        background-color: #ab0000;
+    }        
 </style>
