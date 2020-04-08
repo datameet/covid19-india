@@ -19,7 +19,7 @@ export default {
   props: ['data'],  
   computed: {
       bars: function() {
-          var max = this.data[this.data.length-1].cases;
+          var max = Math.max.apply(null, this.data.map(x => x.cases));
           var index = 0;
           var length = this.data.length;
           function makeBar(row) {

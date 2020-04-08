@@ -37,6 +37,7 @@
             <th class="location">Location</th>
             <th class="doubling-days">How long did it take for the number of total confirmed cases to double?</th>
             <th class="cases">Total confirmed cases</th>
+            <th class="cases">Daily new confirmed cases</th>
           </tr>
           <tr v-for="stat in stats" v-bind:key="stat.state">
               <td class="location">{{getLocationName(stat.state)}}</td>
@@ -46,6 +47,7 @@
                   <br>
                   <span class="days">{{stat.doubled_in}} days</span>
                 </div>
+              </td>
               <td class="plot-cell">
                 <div class="trend">
                   <div class="plot" style="padding-bottom: 10px;">
@@ -54,6 +56,19 @@
                   <div class="value">
                     <div class="time-series-value current">
                       <span class="count">{{stat.current}} total</span>
+                      <span class="date current">{{getDate(stat)}}</span>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="plot-cell">
+                <div class="trend">
+                  <div class="plot" style="padding-bottom: 10px;">
+                    <bar-chart :data="getDailyCases(stat)" />
+                  </div>
+                  <div class="value">
+                    <div class="time-series-value current">
+                      <span class="count">+{{getDailyCasesCurrent(stat)}} new</span>
                       <span class="date current">{{getDate(stat)}}</span>
                     </div>
                   </div>
@@ -100,6 +115,19 @@ export default {
       var cases = stat.cases.map(x => x);
       cases.reverse();
       return cases;
+    },
+    getDailyCases: function(stat) {
+      var cases = [];
+      for (var i=1; i<stat.cases.length; i++) {
+        var x1 = stat.cases[i];
+        var x0 = stat.cases[i-1];
+        cases.push({cases: x0.cases-x1.cases, date: x0.date});
+      }
+      cases.reverse();
+      return cases;
+    },
+    getDailyCasesCurrent: function(stat) {
+      return stat.cases[0].cases-stat.cases[1].cases;
     },
     getLocationName: function(code) {
       if (code == "india") {
