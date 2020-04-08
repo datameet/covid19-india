@@ -30,10 +30,7 @@ def jsonify(data):
 
 class index:
     def GET(self):
-        return jsonify({
-            "app": "covid19-india",
-            "repo_url": "https://github.com/anandology/covid19",
-        })
+        raise web.seeother("/dashboard/")
 
 class cases:
     def GET(self):
