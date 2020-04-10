@@ -1,12 +1,12 @@
-# covid19
+# Covid19 dashboard for India
 
-Random experiements with data related to covid19 cases in India.
+Dashboard to explore the Covid19 cases in India.
 
 ## Data Sources
 
 ### Ministry of Health and Family Welfare
 
-The Ministry of Health and Family Welfare has been publishing the number of COZID19 cases on their website https://www.mohfw.gov.in/.
+The Ministry of Health and Family Welfare has been publishing the number of COVID19 cases on their website https://www.mohfw.gov.in/.
 
 Thejesh GN has archived that data periodically and published an API to extract that info.
 
@@ -24,7 +24,7 @@ The data from these two sources is published as an API.
 
 The base URL for all these APIs is:
 
-http://covid19-india.anandology.com
+http://covid19-india.datameet.org
 
 ### Get Latest Cases
 
@@ -34,7 +34,7 @@ Gets the latest number of cases from the [Ministry of Health and Family Welfare]
 [mohfw]: https://www.mohfw.gov.in/
 
 ```
-$ curl http://covid19-india.anandology.com/cases
+$ curl http://covid19-india.datameet.org/cases
 {
 	"source": "mohfw",
 	"last_updated": "2020-03-25T09:15:00+05:30",
@@ -65,7 +65,7 @@ $ curl http://covid19-india.anandology.com/cases
 This endpoint similar to `/cases`, except that this uses [The Hindu][thehindu] as source. The Hindu updates the numbers through out of the day from various sources. However, this is not the official stats published by the government.
 
 ```
-$ curl http://covid19-india.anandology.com/cases/live
+$ curl http://covid19-india.datameet.org/cases/live
 {
 	...
 }
@@ -79,14 +79,14 @@ The response format of this API endpoint is identical to that of `/cases`.
 ### Get cases for a given date
 
 ```
-$ curl http://covid19-india.anandology.com/cases?date=2020-03-15
+$ curl http://covid19-india.datameet.org/cases?date=2020-03-15
 ...
 ```
 
 ### Get the count of cases by date for India
 
 ```
-$ curl http://covid19-india.anandology.com/cases/daily
+$ curl http://covid19-india.datameet.org/cases/daily
 {
   "cases": [
     {
@@ -117,7 +117,7 @@ $ curl http://covid19-india.anandology.com/cases/daily
 ### Get the count of cases by date for a state
 
 ```
-$ curl http://covid19-india.anandology.com/cases/mh
+$ curl http://covid19-india.datameet.org/cases/mh
 {
   "cases": [
     {
