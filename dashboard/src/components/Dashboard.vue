@@ -26,10 +26,10 @@
           <p>Data Source: Data published by 
             <a href="https://www.mohfw.gov.in/">Ministry of Health and Family Welfare</a>, 
             compiled by <a href="https://projects.datameet.org/covid19/">DataMeet</a> 
-            and published as an API by <a href="https://twitter.com/anandology">@anandology</a>.
+            and [published as an API](https://github.com/datameet/covid19-india).
           </p>
 
-          <p>Github Repo: <a href="https://github.com/anandology/covid19">https://github.com/anandology/covid19</a></p>
+          <p>Github Repo: <a href="https://github.com/datameet/covid19-india">https://github.com/datameet/covid19-india</a></p>
         </div>
 
         <table class="covid-table">
